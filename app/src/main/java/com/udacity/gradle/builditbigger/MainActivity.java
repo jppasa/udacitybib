@@ -1,11 +1,25 @@
 package com.udacity.gradle.builditbigger;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import gt.com.jpvr.joker.JokeProvider;
 
@@ -42,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        String joke = new JokeProvider().getRandomJoke();
-        Toast.makeText(this, joke, Toast.LENGTH_LONG).show();
+        new EndpointsAsyncTask(this).execute();
     }
-
-
 }
