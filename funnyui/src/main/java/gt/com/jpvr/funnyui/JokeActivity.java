@@ -21,18 +21,19 @@ public class JokeActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
 
         String jokeStr = "No joke...\nSorry";
+        Joke joke = Joke.fromString(jokeStr);
         if (extras != null && extras.containsKey(ARG_JOKE)) {
-            jokeStr = extras.getString(ARG_JOKE, jokeStr);
+            jokeStr = extras.getString(ARG_JOKE);
 
-            Joke joke = Joke.fromString(jokeStr);
-
-            txtSetup.setText(joke.getSetup());
-
-            if (joke.getPunchline() != null) {
-                txtPunchline.setText(joke.getPunchline());
+            if (jokeStr != null) {
+                joke = Joke.fromString(jokeStr);
             }
         }
 
-        txtSetup.setText(jokeStr);
+        txtSetup.setText(joke.getSetup());
+
+        if (joke.getPunchline() != null) {
+            txtPunchline.setText(joke.getPunchline());
+        }
     }
 }

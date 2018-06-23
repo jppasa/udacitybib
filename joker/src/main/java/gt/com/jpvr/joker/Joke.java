@@ -28,10 +28,14 @@ public class Joke {
     public static Joke fromString(String jokeStr) {
         int index = jokeStr.indexOf("\n");
 
-        String setup = jokeStr.substring(0, index);
-        String punchline = jokeStr.substring(index + 1);
+        if (index != -1) {
+            String setup = jokeStr.substring(0, index);
+            String punchline = jokeStr.substring(index + 1);
 
-        return new Joke(setup, punchline);
+            return new Joke(setup, punchline);
+        }
+
+        return new Joke(jokeStr, null);
     }
 
     @Override

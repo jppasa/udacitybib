@@ -10,6 +10,9 @@ import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
@@ -33,7 +36,7 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
         if(myApiService == null) {  // Only do this once
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
-                    .setRootUrl("http://192.168.43.206/_ah/api/")//"http://10.0.2.2:8080/_ah/api/")
+                    .setRootUrl("http://10.0.2.2:8080/_ah/api/") //"http://192.168.43.206:8080/_ah/api/")//
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
                         public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) {
@@ -45,20 +48,34 @@ public class EndpointsAsyncTask extends AsyncTask<Void, Void, String> {
         }
 
         try {
-            return myApiService.getJoke().execute().toString();
+            String result = myApiService.getJoke().execute().toString();
+
+            JSONObject json = new JSONObject(result);
+            return json.optString("data", null);
         } catch (IOException e) {
-            return e.getMessage();
+            e.getMessage();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        if (callbacks != null) {
-            callbacks.onEndpointTaskResult(result);
+        if (result != null) {
+            if (callbacks != null) {
+                callbacks.onEndpointTaskResult(result);
+            }
+        } else {
+            if (callbacks != null) {
+                callbacks.onEndpointTaskFailed();
+            }
         }
     }
 
     interface EndpointsCallbacks {
         void onEndpointTaskResult(String result);
+        void onEndpointTaskFailed();
     }
 }

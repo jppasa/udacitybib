@@ -63,4 +63,14 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
         intent.putExtra(ARG_JOKE, result);
         startActivity(intent);
     }
+
+    @Override
+    public void onEndpointTaskFailed() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
+        Intent intent = new Intent(this, JokeActivity.class);
+        startActivity(intent);
+    }
 }
