@@ -4,9 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import gt.com.jpvr.joker.Joke;
+
 public class JokeActivity extends AppCompatActivity {
 
-    private static final String ARG_JOKE = "joke";
+    public static final String ARG_JOKE = "joke";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +20,17 @@ public class JokeActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        String jokeStr = "No joke...";
+        String jokeStr = "No joke...\nSorry";
         if (extras != null && extras.containsKey(ARG_JOKE)) {
             jokeStr = extras.getString(ARG_JOKE, jokeStr);
+
+            Joke joke = Joke.fromString(jokeStr);
+
+            txtSetup.setText(joke.getSetup());
+
+            if (joke.getPunchline() != null) {
+                txtPunchline.setText(joke.getPunchline());
+            }
         }
 
         txtSetup.setText(jokeStr);

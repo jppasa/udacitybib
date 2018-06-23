@@ -42,14 +42,14 @@ public class JokeProvider {
         return jokes[new Random().nextInt(jokes.length)];
     }
 
-    public Joke getRandomJoke() {
-        String jokeStr = getRandomJokeStr();
-
-        int index = jokeStr.indexOf("\n");
-
-        String setup = jokeStr.substring(0, index);
-        String punchline = jokeStr.substring(index + 1);
-
-        return new Joke(setup, punchline);
-    }
+//    public Joke getRandomJoke() {
+//        String jokeStr = getRandomJokeStr();
+//
+//        int index = jokeStr.indexOf("\n");
+//
+//        String setup = jokeStr.substring(0, index);
+//        String punchline = jokeStr.substring(index + 1);
+//
+//        return new Joke(setup, punchline);
+//    }
 }

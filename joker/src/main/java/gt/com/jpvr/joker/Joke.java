@@ -25,8 +25,13 @@ public class Joke {
         this.punchline = punchline;
     }
 
-    public String asString() {
-        return toString();
+    public static Joke fromString(String jokeStr) {
+        int index = jokeStr.indexOf("\n");
+
+        String setup = jokeStr.substring(0, index);
+        String punchline = jokeStr.substring(index + 1);
+
+        return new Joke(setup, punchline);
     }
 
     @Override

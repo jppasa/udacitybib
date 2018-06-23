@@ -1,30 +1,21 @@
 package com.udacity.gradle.builditbigger;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.AsyncTask;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
-import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
-import com.udacity.gradle.builditbigger.backend.myApi.MyApi;
+import gt.com.jpvr.funnyui.JokeActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import gt.com.jpvr.joker.JokeProvider;
+import static gt.com.jpvr.funnyui.JokeActivity.ARG_JOKE;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndpointsAsyncTask.EndpointsCallbacks {
+
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask(this).execute();
+        dialog = ProgressDialog.show(this, null, getString(R.string.fetching_joke), true, false);
+        new EndpointsAsyncTask(this)
+                .setCallbacks(this)
+                .execute();
+    }
+
+    @Override
+    public void onEndpointTaskResult(String result) {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+
+        Intent intent = new Intent(this, JokeActivity.class);
+        intent.putExtra(ARG_JOKE, result);
+        startActivity(intent);
     }
 }
