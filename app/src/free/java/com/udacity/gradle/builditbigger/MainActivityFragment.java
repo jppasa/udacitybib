@@ -1,37 +1,136 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements EndpointsAsyncTask.EndpointsCallbacks {
+
+    private LinearLayout mProgressLayout;
+    private InterstitialAd mInterstitialAd;
 
     public MainActivityFragment() { }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        MobileAds.initialize(requireContext(), getString(R.string.app_id));
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
-        AdView mAdView = root.findViewById(R.id.adView);
-        // Create an ad request. Check logcat output for the hashed device ID to
-        // get test ads on a physical device. e.g.
-        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
-        AdRequest adRequest = new AdRequest.Builder()
+        AdRequest bannerRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
 
-        mAdView.loadAd(adRequest);
+        AdView mAdView = root.findViewById(R.id.adView);
+
+        mAdView.loadAd(bannerRequest);
+
+
+//        mInterstitialAd.setAdListener(new AdListener() {
+//            @Override
+//            public void onAdClosed() {
+//                tellJoke();
+//            }
+//        });
+
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        AdRequest.Builder requestBuilder = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
+
+        mInterstitialAd = new InterstitialAd(requireContext());
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
+        mInterstitialAd.loadAd(requestBuilder.build());
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                tellJoke();
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                Log.d("ADS", "Failed to load. Error code: " + errorCode);
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        mProgressLayout = view.findViewById(R.id.progressLayout);
+
+        Button btnTellJoke = view.findViewById(R.id.btnTellJoke);
+
+        btnTellJoke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    tellJoke();
+                }
+            }
+        });
+    }
+
+    public void tellJoke() {
+        if (mProgressLayout != null) {
+            mProgressLayout.setVisibility(View.VISIBLE);
+        }
+
+        new EndpointsAsyncTask(requireContext())
+                .setCallbacks(this)
+                .execute();
+    }
+
+    @Override
+    public void onEndpointTaskResult(String result) {
+        if (mProgressLayout != null) {
+            mProgressLayout.setVisibility(View.GONE);
+        }
+
+        Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onEndpointTaskFailed() {
+        if (mProgressLayout != null) {
+            mProgressLayout.setVisibility(View.GONE);
+        }
+
+        Toast.makeText(requireContext(), R.string.no_joke, Toast.LENGTH_LONG).show();
     }
 }

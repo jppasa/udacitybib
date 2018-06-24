@@ -25,3 +25,10 @@ allprojects {
         }
     }
 }
+
+
+task runConnectedTests {
+    dependsOn ":backend:appengineRun", ":app:connectedAndroidTest", ':backend:appengineStop'
+
+    doLast { println 'Connected tests complete.' }
+}
