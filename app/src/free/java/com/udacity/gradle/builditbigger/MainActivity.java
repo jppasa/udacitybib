@@ -44,4 +44,9 @@ public class MainActivity extends AppCompatActivity implements EndpointsAsyncTas
     public void onEndpointTaskResult(String result) {
         Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onEndpointTaskFailed() {
+        Toast.makeText(this, R.string.no_joke, Toast.LENGTH_LONG).show();
+    }
 }
