@@ -1,6 +1,5 @@
 package com.udacity.gradle.builditbigger;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,37 +33,21 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MobileAds.initialize(requireContext(), getString(R.string.app_id));
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_main, container, false);
 
-        AdRequest bannerRequest = new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
+        MobileAds.initialize(requireContext(), getString(R.string.app_id));
 
-        AdView mAdView = root.findViewById(R.id.adView);
-
-        mAdView.loadAd(bannerRequest);
-
-
-//        mInterstitialAd.setAdListener(new AdListener() {
-//            @Override
-//            public void onAdClosed() {
-//                tellJoke();
-//            }
-//        });
+        prepareBannerAd(root);
+        prepareInterstitialAd();
 
         return root;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
+    private void prepareInterstitialAd() {
         AdRequest.Builder requestBuilder = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR);
 
@@ -84,8 +67,16 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
                 Log.d("ADS", "Failed to load. Error code: " + errorCode);
             }
         });
+    }
 
+    private void prepareBannerAd(View root) {
+        AdRequest bannerRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
 
+        AdView mAdView = root.findViewById(R.id.adView);
+
+        mAdView.loadAd(bannerRequest);
     }
 
     @Override

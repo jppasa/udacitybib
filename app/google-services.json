@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "1035628028582",
+    "firebase_url": "https://udacity-gradle-builditbi-f0501.firebaseio.com",
+    "project_id": "udacity-gradle-builditbi-f0501",
+    "storage_bucket": "udacity-gradle-builditbi-f0501.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035628028582:android:3be5bb92c2105088",
+        "android_client_info": {
+          "package_name": "com.udacity.gradle.builditbigger.free"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035628028582-m0lb69tgt3ef918ralcro9ikl723tgrv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.gradle.builditbigger.free",
+            "certificate_hash": "8ff215e8136de68030fc76eac91e3a2226f92da6"
+          }
+        },
+        {
+          "client_id": "1035628028582-rhndbtu9rnlv45g91s6chf3mjvbv4ohg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwn43XLpq_NT2cYKA3jPJl48DYXUWQnU0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035628028582-rhndbtu9rnlv45g91s6chf3mjvbv4ohg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035628028582:android:107db16fae3cca9d",
+        "android_client_info": {
+          "package_name": "com.udacity.gradle.builditbigger.paid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035628028582-gok3sihjqp6ntr9njs9dmidsrnank4fb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.gradle.builditbigger.paid",
+            "certificate_hash": "8ff215e8136de68030fc76eac91e3a2226f92da6"
+          }
+        },
+        {
+          "client_id": "1035628028582-rhndbtu9rnlv45g91s6chf3mjvbv4ohg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwn43XLpq_NT2cYKA3jPJl48DYXUWQnU0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035628028582-rhndbtu9rnlv45g91s6chf3mjvbv4ohg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
