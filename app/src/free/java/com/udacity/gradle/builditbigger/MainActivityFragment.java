@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+
+import gt.com.jpvr.funnyui.JokeActivity;
+
+import static gt.com.jpvr.funnyui.JokeActivity.ARG_JOKE;
 
 
 /**
@@ -113,7 +118,9 @@ public class MainActivityFragment extends Fragment implements EndpointsAsyncTask
             mProgressLayout.setVisibility(View.GONE);
         }
 
-        Toast.makeText(requireContext(), result, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(requireContext(), JokeActivity.class);
+        intent.putExtra(ARG_JOKE, result);
+        startActivity(intent);
     }
 
     @Override

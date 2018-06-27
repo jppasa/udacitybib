@@ -61,6 +61,7 @@ dependencies {
 
     freeImplementation 'com.google.android.gms:play-services-ads:15.0.1'
     freeImplementation 'com.google.firebase:firebase-ads:15.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
 
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
 
